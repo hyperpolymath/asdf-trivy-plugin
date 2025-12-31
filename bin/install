@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
+set -euo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../lib/utils.bash"
+check_dependencies
+[[ -z "${ASDF_INSTALL_VERSION:-}" ]] && fail "VERSION required"
+[[ -z "${ASDF_INSTALL_PATH:-}" ]] && fail "PATH required"
+dp="${ASDF_DOWNLOAD_PATH:-${ASDF_INSTALL_PATH}/tmp}"
+[[ ! -f "${dp}/trivy" ]] && { mkdir -p "${dp}"; download_file "$(get_download_url "${ASDF_INSTALL_VERSION}")" "${dp}/trivy.tar.gz"; tar -xzf "${dp}/trivy.tar.gz" -C "${dp}"; rm "${dp}/trivy.tar.gz"; }
+mkdir -p "${ASDF_INSTALL_PATH}/bin"
+cp "${dp}/trivy" "${ASDF_INSTALL_PATH}/bin/"
+chmod +x "${ASDF_INSTALL_PATH}/bin/trivy"
+[[ -d "${ASDF_INSTALL_PATH}/tmp" ]] && rm -rf "${ASDF_INSTALL_PATH}/tmp"
+log_info "trivy ${ASDF_INSTALL_VERSION} installed"
