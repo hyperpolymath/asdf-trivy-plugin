@@ -57,11 +57,16 @@ list_all_versions() {
 
 get_download_url() {
   local version="$1"
-  local os="$(get_platform)"
-  local Os="$(uname -s)"
-  local os_alt="$(get_platform_alt)"
-  local arch="$(get_arch)"
-  local arch_alt="$(get_arch_alt)"
+  local os
+  os="$(get_platform)"
+  local Os
+  Os="$(uname -s)"
+  local os_alt
+  os_alt="$(get_platform_alt)"
+  local arch
+  arch="$(get_arch)"
+  local arch_alt
+  arch_alt="$(get_arch_alt)"
 
   local pattern="trivy_{version}_{Os}_{arch}.tar.gz"
   local asset_name
@@ -94,7 +99,8 @@ rm -f "$archive"
 if [[ -f "$download_path/$BINARY_NAME" ]]; then
   chmod +x "$download_path/$BINARY_NAME"
 else
-  local found="$(find "$download_path" -name "$BINARY_NAME" -type f 2>/dev/null | head -1)"
+  local found
+  found="$(find "$download_path" -name "$BINARY_NAME" -type f 2>/dev/null | head -1)"
   if [[ -n "$found" ]]; then
     mv "$found" "$download_path/$BINARY_NAME"
     chmod +x "$download_path/$BINARY_NAME"
