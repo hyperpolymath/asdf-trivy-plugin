@@ -1,0 +1,163 @@
+= asdf-trivy
+:toc: macro
+:toclevels: 3
+:icons: font
+:source-highlighter: rouge
+:experimental:
+:author: hyperpolymath
+:revnumber: 0.1.0
+:url-asdf: https://asdf-vm.com
+:url-trivy: https://github.com/aquasecurity/trivy
+:url-repo: https://github.com/hyperpolymath/asdf-trivy-plugin
+
+image:https://img.shields.io/badge/license-PMPL--1.0-blue.svg[License,link="https://github.com/hyperpolymath/palimpsest-license"]
+image:https://img.shields.io/badge/Philosophy-Palimpsest-1f6feb.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-license"]
+image:https://img.shields.io/github/license/hyperpolymath/asdf-trivy-plugin?style=flat-square[License,link=LICENSE]
+image:https://img.shields.io/github/v/release/hyperpolymath/asdf-trivy-plugin?style=flat-square[Release,link={url-repo}/releases]
+image:https://img.shields.io/github/actions/workflow/status/hyperpolymath/asdf-trivy-plugin/ci.yml?branch=main&style=flat-square[Build Status,link={url-repo}/actions]
+image:https://img.shields.io/badge/asdf-plugin-blue?style=flat-square[asdf Plugin,link={url-asdf}]
+
+[.lead]
+An {url-asdf}[asdf] plugin to install and manage {url-trivy}[Trivy] versions.
+
+toc::[]
+
+== Overview
+
+=== What is Trivy?
+
+Trivy is a comprehensive vulnerability scanner for containers, filesystems,
+repositories, and configuration. It is used to identify CVEs, misconfigurations,
+and secrets before deployment.
+
+=== What is asdf?
+
+{url-asdf}[asdf] is a universal version manager that allows you to manage
+multiple runtime versions with a single CLI tool.
+
+=== Why asdf-trivy?
+
+[cols="1,3"]
+|===
+|Feature |Benefit
+
+|**Version Switching**
+|Switch between Trivy versions per project
+
+|**Project Isolation**
+|Pin Trivy per repository via `.tool-versions`
+
+|**Reproducible CI**
+|Keep CI/CD scanners aligned with local runs
+
+|**Cross-Platform**
+|Works on Linux and macOS, with Windows via WSL
+|===
+
+== Prerequisites
+
+=== System Requirements
+
+[cols="1,2,3"]
+|===
+|Platform |Minimum Version |Notes
+
+|**Linux**
+|Ubuntu 20.04+ / Fedora 35+ / Debian 11+
+|x86_64 and aarch64 supported
+
+|**macOS**
+|macOS 11+
+|Intel and Apple Silicon
+
+|**Windows**
+|Windows 10+ with WSL2
+|Native support planned
+|===
+
+=== Dependencies
+
+[source,bash]
+----
+# Debian/Ubuntu
+sudo apt-get update
+sudo apt-get install -y curl git
+
+# Fedora/RHEL
+sudo dnf install -y curl git
+
+# macOS (via Homebrew)
+brew install curl git
+----
+
+=== asdf Installation
+
+[source,bash]
+----
+# Clone asdf
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+
+# Add to your shell (bash)
+echo '. "$HOME/.asdf/asdf.sh"' >> ~/.bashrc
+echo '. "$HOME/.asdf/completions/asdf.bash"' >> ~/.bashrc
+
+# Reload your shell
+exec $SHELL
+----
+
+== Installation
+
+=== Adding the Plugin
+
+[source,bash]
+----
+asdf plugin add trivy https://github.com/hyperpolymath/asdf-trivy-plugin.git
+asdf plugin list
+----
+
+=== Installing Trivy Versions
+
+[source,bash]
+----
+asdf list all trivy
+asdf install trivy latest
+asdf install trivy 0.53.0
+----
+
+=== Setting the Version
+
+[source,bash]
+----
+asdf global trivy 0.53.0
+asdf local trivy 0.53.0
+asdf current trivy
+trivy --version
+----
+
+== Usage
+
+=== Project Configuration
+
+[source]
+----
+trivy 0.53.0
+----
+
+== Configuration
+
+This plugin uses standard asdf behavior. No additional configuration is
+required.
+
+== Troubleshooting
+
+* Ensure `trivy` is on PATH after installation.
+* Verify the installed version with `trivy --version`.
+* Reinstall if a cached release is corrupted.
+
+== Contributing
+
+See link:CONTRIBUTING.adoc[CONTRIBUTING] for guidelines.
+
+== License
+
+Palimpsest-MPL License v1.0 (PMPL-1.0)—see link:LICENSE[LICENSE].
